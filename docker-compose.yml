@@ -1,0 +1,24 @@
+services:
+  webkul-bagisto:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        user: www
+        uid: 1000
+    image: webkul/bagisto:${TAG}
+    container_name: ${CONTAINER_NAME}
+    ports:
+      - 80:80
+    restart: always
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    volumes:
+      - '../source-code:/var/www'
+    networks:
+      default:
+        ipv4_address: ${NET_IP}
+networks:
+  default:
+    external: true
+    name: ${NET_NAME}
